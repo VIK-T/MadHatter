@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HatterActivity" >
+
+    <Button
+        android:id="@+id/buttonColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonPicture"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonPicture"
+        android:onClick = "onColor"
+        android:text="@string/color" />
+
+    <CheckBox
+        android:id="@+id/checkFeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinnerHat"
+        android:layout_below="@+id/spinnerHat"
+        android:text="@string/feather" />
+
+    <Button
+        android:id="@+id/buttonPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onPicture"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="@string/picture" />
+
+    <Spinner
+        android:id="@+id/spinnerHat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/buttonColor"
+        android:layout_below="@+id/buttonColor" />
+
+    <edu.msu.cse.jbull.madhatter.HatterView
+        android:id="@+id/hatterView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/buttonPicture"
+        android:background="@android:color/black" />
+
+</RelativeLayout>
