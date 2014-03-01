@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/spinnerHat"
         android:layout_below="@+id/spinnerHat"
+        android:onClick="onFeatherCheck"
         android:text="@string/feather" />
 
     <Button

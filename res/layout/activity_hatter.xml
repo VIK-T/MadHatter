@@ -21,6 +21,7 @@
         android:layout_alignBaseline="@+id/buttonColor"
         android:layout_alignBottom="@+id/buttonColor"
         android:layout_toRightOf="@+id/buttonColor"
+        android:onClick="onFeatherCheck"
         android:text="@string/feather" />
 
     <Button

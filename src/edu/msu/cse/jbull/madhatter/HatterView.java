@@ -60,6 +60,16 @@ public class HatterView extends View {
      */
     public int color = Color.CYAN;
     
+    /**
+     * Is the feather activated
+     */
+    public boolean isFeather = false;
+    
+    /**
+     * The index of the spinner
+     */
+    public int spinnerNum = 0;
+    
     }
 	 
     /**
@@ -156,6 +166,16 @@ public class HatterView extends View {
      * don't color the hat band
      */
     private Bitmap hatbandBitmap = null;
+    
+    /**
+     * The bitmap to draw the feather
+     */
+    private Bitmap featherBitmap = null;
+    
+    /**
+     * Boolean to see if you should draw the feather
+     */
+    private boolean drawFeather = false;
     
     /**
      * First touch status
@@ -275,6 +295,15 @@ public class HatterView extends View {
             canvas.drawBitmap(hatBitmap, 0, 0, null);            
         }
         
+        if(drawFeather) {
+            // Android scaled images that it loads. The placement of the 
+            // feather is at 322, 22 on the original image when it was
+            // 500 pixels wide. It will have to move based on how big
+            // the hat image actually is.
+            float factor = hatBitmap.getWidth() / 500.0f;
+            canvas.drawBitmap(featherBitmap, 322 * factor, 22 * factor, null); 
+        }
+        
         if(hatbandBitmap != null) {
             canvas.drawBitmap(hatbandBitmap, 0, 0, null);
         }
@@ -312,6 +341,11 @@ public class HatterView extends View {
             hatBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.hat_white);
             hatbandBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.hat_white_band);
             break;
+        }
+        
+        if(drawFeather)
+        {
+        	featherBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.feather);
         }
         
         invalidate();
@@ -431,6 +465,15 @@ public class HatterView extends View {
             float angle2 = angle(touch1.x, touch1.y, touch2.x, touch2.y);
             float da = angle2 - angle1;
             rotate(da, touch1.x, touch1.y);
+            
+            /*
+             * Scaling
+             */
+            double distance1 = Math.sqrt(Math.pow((touch2.x-touch1.x),2) + Math.pow((touch2.y - touch1.y),2));
+            double distance2 = Math.sqrt(Math.pow((touch2.lastX-touch1.lastX),2) + Math.pow((touch2.lastY - touch1.lastY),2));
+            double distanceDiff = distance1 - distance2;
+            double totalDistance = distance1 + distanceDiff;
+            params.hatScale = (float)(totalDistance/distance1);
         }
     }
     
@@ -508,7 +551,43 @@ public class HatterView extends View {
     	// Ensure the options are all set
         setColor(params.color);
         setImagePath(params.imagePath);
-        setHat(params.hat);  
+        setHat(params.hat);
+        setDrawFeather(params.isFeather);
+        setSpinnerNum(params.spinnerNum);
     }
+
+	public boolean isDrawFeather() {
+		return drawFeather;
+	}
+
+	public void setDrawFeather(boolean drawFeather) {
+		this.drawFeather = drawFeather;
+		params.isFeather = drawFeather;
+		setHat(params.hat);
+	}
+	
+	/**
+     * Get the current spinner num
+     * @return spinner index
+     */
+    public int getSpinnerNum() {
+        return params.spinnerNum;
+    }
+
+    /**
+     * Set the current custom hat color
+     * @param color hat color integer value
+     */
+    public void setSpinnerNum(int spinnerNum) {
+        params.spinnerNum = spinnerNum;
+        setHat(params.hat);
+    }
+    
+    public void setHatColor(int color){
+    	params.color = color;
+    	setHat(params.hat);
+    }
+    
+    
 
 }

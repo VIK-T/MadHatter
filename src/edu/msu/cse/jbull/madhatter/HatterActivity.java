@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,11 @@ public class HatterActivity extends Activity {
      * Request code when selecting a picture
      */
     private static final int SELECT_PICTURE = 1;
+    
+    /**
+     * The color of the hat
+     */
+    private static final int GOT_COLOR = 1;
     
     private static final String PARAMETERS = "parameters";
     
@@ -75,8 +81,12 @@ public class HatterActivity extends Activity {
                 Log.i("Path", path);
                 hatterView.setImagePath(path);
             }
-            
         }
+		else if(requestCode == GOT_COLOR && resultCode == Activity.RESULT_OK){
+			// Color response
+			int color = data.getIntExtra(ColorSelectActivity.COLOR, Color.BLACK);
+			hatterView.setHatColor(color);
+		}
 	}
 
 	@Override
@@ -100,6 +110,8 @@ public class HatterActivity extends Activity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
              R.array.hats_spinner, android.R.layout.simple_spinner_item);
         
+        
+        
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
@@ -112,6 +124,7 @@ public class HatterActivity extends Activity {
             public void onItemSelected(AdapterView<?> arg0, View view,
                     int pos, long id) {
             	hatterView.setHat(pos);
+            	updateUI();
             }
 
             @Override
@@ -128,6 +141,7 @@ public class HatterActivity extends Activity {
             
             
             spinner.setSelection(hatterView.getHat());
+            updateUI();
         }
 	}
 	
@@ -149,10 +163,9 @@ public class HatterActivity extends Activity {
      * @param view
      */
     public void onColor(View view) {
-    	// Get a picture from the gallery
+    	// Get a new color for the hat from the color select activity
     	Intent intent = new Intent(this, ColorSelectActivity.class);
-		
-		startActivity(intent);
+    	startActivityForResult(intent, GOT_COLOR);
     }
 
 	@Override
@@ -162,5 +175,33 @@ public class HatterActivity extends Activity {
 		
 		hatterView.putToBundle(PARAMETERS, outState);
 	}
+	
+	/**
+     * Handle a Feather check
+     * @param view
+     */
+    public void onFeatherCheck(View view) {
+    	// Set the value of the checkmark bool
+    	if(hatterView.isDrawFeather())
+    		hatterView.setDrawFeather(false);
+    	else
+    		hatterView.setDrawFeather(true);
+    }
+    
+    /**
+     * Ensure the user interface components match the current state
+     */
+    private void updateUI() {
+    	if(hatterView.getHat() == 2)
+    	{
+    		colorButton.setEnabled(true);
+    	}
+    	else
+    	{
+    		colorButton.setEnabled(false);
+    	}
+    	
+    	spinner.setSelection(hatterView.getHat());
+    }
 
 }

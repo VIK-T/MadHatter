@@ -2,10 +2,13 @@ package edu.msu.cse.jbull.madhatter;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 
 public class ColorSelectActivity extends Activity {
-
+	
+	public static final String COLOR = "edu.msu.cse.jbull.madhatter.COLOR";
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,8 +23,10 @@ public class ColorSelectActivity extends Activity {
 	}
 	
 	public void selectColor(int color) {
-
-        
+		Intent result = new Intent();
+		result.putExtra(COLOR, color);
+		setResult(Activity.RESULT_OK, result);
+		finish();
     }
 
 }
