@@ -26,6 +26,11 @@ public class HatterView extends View {
     
     private static class Parameters implements Serializable {
     /**
+		 * Created to make eclipse shut up abouot warnings
+		 */
+		private static final long serialVersionUID = 1L;
+
+	/**
      * Path to the image file if one exists
      */
     public String imagePath = null;
@@ -469,12 +474,17 @@ public class HatterView extends View {
             /*
              * Scaling
              */
-            double distance1 = Math.sqrt(Math.pow((touch2.x-touch1.x),2) + Math.pow((touch2.y - touch1.y),2));
-            double distance2 = Math.sqrt(Math.pow((touch2.lastX-touch1.lastX),2) + Math.pow((touch2.lastY - touch1.lastY),2));
-            double distanceDiff = distance1 - distance2;
-            double totalDistance = distance1 + distanceDiff;
-            params.hatScale = (float)(totalDistance/distance1);
+            scaleHat();
         }
+    }
+    
+    public void scaleHat()
+    {
+    	double distance1 = Math.sqrt(Math.pow((touch2.x-touch1.x),2) + Math.pow((touch2.y - touch1.y),2));
+        double distance2 = Math.sqrt(Math.pow((touch2.lastX-touch1.lastX),2) + Math.pow((touch2.lastY - touch1.lastY),2));
+        double distanceDiff = distance1 - distance2;
+        double totalDistance = distance1 + distanceDiff;
+        params.hatScale *= (float)(totalDistance/distance1);
     }
     
     /**
@@ -581,11 +591,6 @@ public class HatterView extends View {
     public void setSpinnerNum(int spinnerNum) {
         params.spinnerNum = spinnerNum;
         setHat(params.hat);
-    }
-    
-    public void setHatColor(int color){
-    	params.color = color;
-    	setHat(params.hat);
     }
     
     

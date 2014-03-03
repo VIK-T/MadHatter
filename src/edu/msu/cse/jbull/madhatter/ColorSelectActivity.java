@@ -3,6 +3,7 @@ package edu.msu.cse.jbull.madhatter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 
 public class ColorSelectActivity extends Activity {
@@ -25,6 +26,7 @@ public class ColorSelectActivity extends Activity {
 	public void selectColor(int color) {
 		Intent result = new Intent();
 		result.putExtra(COLOR, color);
+		Log.i("COLOR", Integer.toString(color));
 		setResult(Activity.RESULT_OK, result);
 		finish();
     }

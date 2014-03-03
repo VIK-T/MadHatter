@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +25,7 @@ public class HatterActivity extends Activity {
     /**
      * The color of the hat
      */
-    private static final int GOT_COLOR = 1;
+    private static final int GOT_COLOR = 2;
     
     private static final String PARAMETERS = "parameters";
     
@@ -54,6 +53,7 @@ public class HatterActivity extends Activity {
     
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		
@@ -83,9 +83,12 @@ public class HatterActivity extends Activity {
             }
         }
 		else if(requestCode == GOT_COLOR && resultCode == Activity.RESULT_OK){
+			
 			// Color response
 			int color = data.getIntExtra(ColorSelectActivity.COLOR, Color.BLACK);
-			hatterView.setHatColor(color);
+			String colorString = Integer.toString(color);
+			Log.i("color", colorString);
+			hatterView.setColor(color);
 		}
 	}
 
@@ -99,7 +102,7 @@ public class HatterActivity extends Activity {
          */
         hatterView = (HatterView)findViewById(R.id.hatterView);
         colorButton = (Button)findViewById(R.id.buttonColor);
-        featherCheck = (CheckBox)findViewById(R.id.checkFeather);
+        setFeatherCheck((CheckBox)findViewById(R.id.checkFeather));
         spinner = (Spinner) findViewById(R.id.spinnerHat);
         
         /*
@@ -203,5 +206,18 @@ public class HatterActivity extends Activity {
     	
     	spinner.setSelection(hatterView.getHat());
     }
+    
+    /*
+     * Both of these were created so that Eclipse would
+     * stop saying that featherCheck's value was not used
+     */
+ 
+	public CheckBox getFeatherCheck() {
+		return featherCheck;
+	}
+
+	public void setFeatherCheck(CheckBox featherCheck) {
+		this.featherCheck = featherCheck;
+	}
 
 }
